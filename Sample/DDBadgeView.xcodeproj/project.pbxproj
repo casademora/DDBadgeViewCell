@@ -16,6 +16,7 @@
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		771CF05711A0BBE5006420A3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 771CF05611A0BBE5006420A3 /* QuartzCore.framework */; };
+		772B1CDD11C44F8100C4C41F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 772B1CDC11C44F8100C4C41F /* Icon.png */; };
 		77A2E95011A0BB320054AFE1 /* DDBadgeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A2E94F11A0BB320054AFE1 /* DDBadgeViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		771CF05611A0BBE5006420A3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		772B1CDC11C44F8100C4C41F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		77A2E94E11A0BB320054AFE1 /* DDBadgeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDBadgeViewCell.h; path = ../DDBadgeViewCell.h; sourceTree = SOURCE_ROOT; };
 		77A2E94F11A0BB320054AFE1 /* DDBadgeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDBadgeViewCell.m; path = ../DDBadgeViewCell.m; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* DDBadgeView-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DDBadgeView-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				772B1CDC11C44F8100C4C41F /* Icon.png */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* DDBadgeView-Info.plist */,
@@ -167,6 +170,7 @@
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
+				772B1CDD11C44F8100C4C41F /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
