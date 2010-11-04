@@ -28,4 +28,4 @@ And configure the cell through its properties below:
 	
 ## License
 
-DDBadgeViewCell is licensed under MIT license.
+DDBadgeViewCell is released under MIT License.

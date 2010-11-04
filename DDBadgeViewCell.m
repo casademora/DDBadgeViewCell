@@ -1,8 +1,9 @@
 //
 //  DDBadgeViewCell.m
+//  DDBadgeViewCell
 //
 //  Created by digdog on 1/23/10.
-//  Copyright 2010 Ching-Lan 'digdog' HUANG and digdog software. All rights reserved.
+//  Copyright 2010 Ching-Lan 'digdog' HUANG. http://digdog.tumblr.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
