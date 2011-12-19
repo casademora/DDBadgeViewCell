@@ -31,15 +31,14 @@
 #pragma mark -
 #pragma mark DDBadgeView declaration
 
-@interface DDBadgeView : UIView {
-	
-@private
-	DDBadgeViewCell *cell_;
-}
 
-@property (nonatomic, assign) DDBadgeViewCell *cell;
 
-- (id)initWithFrame:(CGRect)frame cell:(DDBadgeViewCell *)newCell;
+@interface DDBadgeView ()
+
+@property (nonatomic, assign) id<DDBadgeViewDelegate> delegate;
+
+- (id)initWithFrame:(CGRect)frame delegate:(id<DDBadgeViewDelegate>)newCell;
+
 @end
 
 #pragma mark -
@@ -47,20 +46,34 @@
 
 @implementation DDBadgeView 
 
-@synthesize cell = cell_;
+@synthesize delegate = _delegate;
+
 
 #pragma mark -
 #pragma mark init
 
-- (id)initWithFrame:(CGRect)frame cell:(DDBadgeViewCell *)newCell {
+- (id)initWithFrame:(CGRect)frame delegate:(id<DDBadgeViewDelegate>)delegate {
 	
 	if ((self = [super initWithFrame:frame])) {
-		cell_ = newCell;
+		_delegate = delegate;
 		
 		self.backgroundColor = [UIColor clearColor];
 		self.layer.masksToBounds = YES;
 	}
 	return self;
+}
+
+- (id) initWithTableCell:(UITableViewCell<DDBadgeViewDelegate> *)cell;
+{
+    self = [self initWithFrame:cell.contentView.bounds delegate:cell];
+    if (self)
+    {
+         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+         self.contentMode = UIViewContentModeRedraw;
+         self.contentStretch = CGRectMake(1., 0., 0., 0.);
+         [cell.contentView addSubview:self];
+    }
+    return self;
 }
 
 #pragma mark -
@@ -72,28 +85,28 @@
 
     UIColor *currentSummaryColor = [UIColor blackColor];
     UIColor *currentDetailColor = [UIColor grayColor];
-    UIColor *currentBadgeColor = self.cell.badgeColor;
+    UIColor *currentBadgeColor = self.delegate.badgeColor;
     if (!currentBadgeColor) {
         currentBadgeColor = [UIColor colorWithRed:0.53 green:0.6 blue:0.738 alpha:1.];
     }
     
-	if (self.cell.isHighlighted || self.cell.isSelected) {
+	if (self.delegate.isHighlighted || self.delegate.isSelected) {
         currentSummaryColor = [UIColor whiteColor];
         currentDetailColor = [UIColor whiteColor];
-		currentBadgeColor = self.cell.badgeHighlightedColor;
+		currentBadgeColor = self.delegate.badgeHighlightedColor;
 		if (!currentBadgeColor) {
 			currentBadgeColor = [UIColor whiteColor];
 		}
 	} 
 	
-	if (self.cell.isEditing) {
+	if (self.delegate.isEditing) {
 		[currentSummaryColor set];
-		[self.cell.summary drawAtPoint:CGPointMake(10, 10) forWidth:rect.size.width withFont:[UIFont boldSystemFontOfSize:18.] lineBreakMode:UILineBreakModeTailTruncation];
+		[self.delegate.summary drawAtPoint:CGPointMake(10, 10) forWidth:rect.size.width withFont:[UIFont boldSystemFontOfSize:18.] lineBreakMode:UILineBreakModeTailTruncation];
 		
 		[currentDetailColor set];
-		[self.cell.detail drawAtPoint:CGPointMake(10, 32) forWidth:rect.size.width withFont:[UIFont systemFontOfSize:14.] lineBreakMode:UILineBreakModeTailTruncation];		
+		[self.delegate.detail drawAtPoint:CGPointMake(10, 32) forWidth:rect.size.width withFont:[UIFont systemFontOfSize:14.] lineBreakMode:UILineBreakModeTailTruncation];		
 	} else {
-		CGSize badgeTextSize = [self.cell.badgeText sizeWithFont:[UIFont boldSystemFontOfSize:13.]];
+		CGSize badgeTextSize = [self.delegate.badgeText sizeWithFont:[UIFont boldSystemFontOfSize:13.]];
 		CGRect badgeViewFrame = CGRectIntegral(CGRectMake(rect.size.width - badgeTextSize.width - 24, (rect.size.height - badgeTextSize.height - 4) / 2, badgeTextSize.width + 14, badgeTextSize.height + 4));
 		
 		CGContextSaveGState(context);	
@@ -108,14 +121,14 @@
 		
 		CGContextSaveGState(context);	
 		CGContextSetBlendMode(context, kCGBlendModeClear);
-		[self.cell.badgeText drawInRect:CGRectInset(badgeViewFrame, 7, 2) withFont:[UIFont boldSystemFontOfSize:13.]];
+		[self.delegate.badgeText drawInRect:CGRectInset(badgeViewFrame, 7, 2) withFont:[UIFont boldSystemFontOfSize:13.]];
 		CGContextRestoreGState(context);
 		
 		[currentSummaryColor set];
-		[self.cell.summary drawAtPoint:CGPointMake(10, 10) forWidth:(rect.size.width - badgeViewFrame.size.width - 24) withFont:[UIFont boldSystemFontOfSize:18.] lineBreakMode:UILineBreakModeTailTruncation];
+		[self.delegate.summary drawAtPoint:CGPointMake(10, 10) forWidth:(rect.size.width - badgeViewFrame.size.width - 24) withFont:[UIFont boldSystemFontOfSize:18.] lineBreakMode:UILineBreakModeTailTruncation];
 		
 		[currentDetailColor set];
-		[self.cell.detail drawAtPoint:CGPointMake(10, 32) forWidth:(rect.size.width - badgeViewFrame.size.width - 24) withFont:[UIFont systemFontOfSize:14.] lineBreakMode:UILineBreakModeTailTruncation];		
+		[self.delegate.detail drawAtPoint:CGPointMake(10, 32) forWidth:(rect.size.width - badgeViewFrame.size.width - 24) withFont:[UIFont systemFontOfSize:14.] lineBreakMode:UILineBreakModeTailTruncation];		
 	}
 }
 
@@ -124,7 +137,7 @@
 #pragma mark -
 #pragma mark DDBadgeViewCell private
 
-@interface DDBadgeViewCell ()
+@interface DDBadgeViewCell () <DDBadgeViewDelegate>
 @property (nonatomic, retain) DDBadgeView *	badgeView;
 @end
 
@@ -159,11 +172,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-		badgeView_ = [[DDBadgeView alloc] initWithFrame:self.contentView.bounds cell:self];
-        badgeView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        badgeView_.contentMode = UIViewContentModeRedraw;
-		badgeView_.contentStretch = CGRectMake(1., 0., 0., 0.);
-        [self.contentView addSubview:badgeView_];
+        badgeView_ = [[DDBadgeView alloc] initWithTableCell:self];
     }
     return self;
 }

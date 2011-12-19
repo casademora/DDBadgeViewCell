@@ -27,19 +27,27 @@
 
 #import <UIKit/UIKit.h>
 
-@class DDBadgeView;
+@protocol DDBadgeViewDelegate <NSObject>
 
-@interface DDBadgeViewCell : UITableViewCell {
+- (BOOL) isEditing;
+- (BOOL) isHighlighted;
+- (BOOL) isSelected;
 
-@private
-	DDBadgeView *	badgeView_;
-	
-	NSString *		summary_;
-	NSString *		detail_;
-	NSString *		badgeText_;
-	UIColor *		badgeColor_;
-	UIColor *		badgeHighlightedColor_;
-}
+- (NSString *) summary;
+- (NSString *) detail;
+- (NSString *) badgeText;
+- (UIColor *) badgeColor;
+- (UIColor *) badgeHighlightedColor;
+
+@end
+
+@interface DDBadgeView : UIView 
+
+- (id) initWithTableCell:(UITableViewCell<DDBadgeViewDelegate> *)cell;
+                          
+@end
+
+@interface DDBadgeViewCell : UITableViewCell 
 
 @property (nonatomic, copy) NSString *      summary;
 @property (nonatomic, copy) NSString *      detail;
