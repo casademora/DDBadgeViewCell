@@ -81,6 +81,7 @@
 
 - (void)drawRect:(CGRect)rect {	
 
+    if ([[self.delegate badgeText] length] == 0) return;
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
     UIColor *currentSummaryColor = [UIColor blackColor];
